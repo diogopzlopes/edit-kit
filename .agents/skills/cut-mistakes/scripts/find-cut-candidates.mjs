@@ -18,7 +18,12 @@
 //   <stem>.cut-candidates.md     human-readable proposal
 //
 // Usage:
-//   node find-cut-candidates.mjs <transcript.json> [--out-dir dir]
+//   node find-cut-candidates.mjs <transcript.json> [--out-dir dir] [--lang pt|en]
+//
+// Tokens are Unicode-aware, so accented words ("não", "é", "informação") match.
+// --lang (default: the transcript's `language`, else pt) picks the stop words and
+// the isolated-filler list ("hum", "né", "tipo"...). Fillers are only proposed
+// when there is silence on both sides; they still need review in context.
 
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join, resolve, basename, extname } from "node:path";
@@ -26,20 +31,22 @@ import { argv, exit } from "node:process";
 
 const args = argv.slice(2);
 if (args.length === 0 || args.includes("--help")) {
-  console.log("Usage: node find-cut-candidates.mjs <transcript.json> [--out-dir dir]");
+  console.log("Usage: node find-cut-candidates.mjs <transcript.json> [--out-dir dir] [--lang pt|en]");
   exit(args.length === 0 ? 1 : 0);
 }
-let transcriptArg = null, outDirArg = null;
+let transcriptArg = null, outDirArg = null, langArg = null;
 for (let i = 0; i < args.length; i++) {
   if (args[i] === "--out-dir") outDirArg = args[++i];
+  else if (args[i] === "--lang" || args[i] === "--language") langArg = args[++i];
   else if (!transcriptArg) transcriptArg = args[i];
 }
 const transcriptPath = resolve(transcriptArg);
 const transcript = JSON.parse(readFileSync(transcriptPath, "utf8"));
 if (!Array.isArray(transcript.words)) { console.error("transcript has no words[]"); exit(1); }
+const lang = String(langArg ?? transcript.language ?? "pt").toLowerCase().startsWith("en") ? "en" : "pt";
 
 function cleanToken(text) {
-  return (text ?? "").toLowerCase().replace(/^[^a-z0-9$%]+|[^a-z0-9$%]+$/g, "");
+  return (text ?? "").normalize("NFC").toLowerCase().replace(/^[^\p{L}\p{N}$%]+|[^\p{L}\p{N}$%]+$/gu, "");
 }
 function displayText(ws) {
   return ws.map((w) => w.text).join(" ").replace(/\s+([,.!?;:])/g, "$1");
@@ -82,6 +89,37 @@ for (let i = 1; i < words.length; i++) {
   }
 }
 
+// ---- 1b) isolated fillers (only with silence on both sides) ----
+// Hesitations ("hum", "ahn") default to cut; verbal tics ("né", "tipo") default to
+// review because they are often intentional. Never propose a filler that runs
+// straight into its neighbours: cutting it clips the words around it.
+const FILLERS = {
+  en: { hesitation: ["um", "uh", "uhm", "erm", "hmm", "mm"], tic: ["like", "basically", "actually", "literally"] },
+  pt: { hesitation: ["hum", "hmm", "hm", "ahn", "ãh", "ah", "eh", "éé", "ééé", "ã", "uhm"], tic: ["né", "tipo", "sabe", "entendeu", "enfim", "daí"] },
+};
+const hesitations = new Set(FILLERS[lang].hesitation);
+const tics = new Set(FILLERS[lang].tic);
+const MIN_SILENCE = 0.15;
+for (let i = 0; i < words.length; i++) {
+  const w = words[i];
+  const isHes = hesitations.has(w.token) || /^(h?u+m+|e{2,}|é{2,}|a+h+n*|h?m{2,})$/u.test(w.token);
+  const isTic = tics.has(w.token);
+  if (!isHes && !isTic) continue;
+  const before = i === 0 ? Infinity : w.start - words[i - 1].end;
+  const after = i === words.length - 1 ? Infinity : words[i + 1].start - w.end;
+  if (before < MIN_SILENCE || after < MIN_SILENCE) continue;
+  candidates.push({
+    id: `c${String(++cid).padStart(3, "0")}`,
+    type: "filler",
+    confidence: isHes ? "medium" : "low",
+    recommend: isHes ? "cut" : "review",
+    cut: { start: Number(w.start.toFixed(3)), end: Number((i === words.length - 1 ? w.end : words[i + 1].start).toFixed(3)) },
+    removes: w.text,
+    context: ctx(i),
+    note: `${isHes ? "hesitation" : "verbal tic"} "${w.token}" isolated by ${before === Infinity ? "start" : before.toFixed(2) + "s"} / ${after === Infinity ? "end" : after.toFixed(2) + "s"} of silence`,
+  });
+}
+
 // ---- build segments (for retake / false-start detection) ----
 const segments = [];
 let segStart = 0;
@@ -97,9 +135,13 @@ for (let i = 1; i < words.length; i++) {
 }
 segments.push({ id: segments.length + 1, wordStart: segStart, wordEnd: words.length - 1, start: words[segStart].start, end: words.at(-1).end, text: displayText(words.slice(segStart)) });
 
-const stop = new Set("a an and are as at be but by for from i if in is it of on or so that this to was we with you your they their there what when where why how like um uh".split(" "));
+const STOP = {
+  en: "a an and are as at be but by for from i if in is it of on or so that this to was we with you your they their there what when where why how like um uh",
+  pt: "a o as os um uma uns umas de da do das dos em na no nas nos por pra pras pro pros para com sem que se e ou mas mais muito é ser foi era são está estão tá tão isso isto esse essa este esta aquilo aquele aquela ele ela eles elas eu você vocês nós a gente me te lhe seu sua meu minha nosso nossa já não sim também quando onde como porque porquê então aí assim né tipo coisa vai vou ter tem tinha fazer faz hum ahn éé",
+};
+const stop = new Set(STOP[lang].split(" "));
 function signature(seg) {
-  return seg.text.toLowerCase().replace(/[^a-z0-9\s$%]/g, " ").split(/\s+/).filter((t) => t.length > 2 && !stop.has(t)).slice(0, 18);
+  return seg.text.normalize("NFC").toLowerCase().replace(/[^\p{L}\p{N}\s$%]/gu, " ").split(/\s+/).filter((t) => t.length > 2 && !stop.has(t)).slice(0, 18);
 }
 function jaccard(a, b) {
   const as = new Set(a), bs = new Set(b);
@@ -149,6 +191,7 @@ mkdirSync(outDir, { recursive: true });
 const out = {
   agent: "cut-mistakes",
   source_transcript: transcriptPath,
+  language: lang,
   word_count: words.length,
   segment_count: segments.length,
   counts: byType,

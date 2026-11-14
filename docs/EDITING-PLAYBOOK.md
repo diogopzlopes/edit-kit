@@ -1,155 +1,257 @@
-# Editing playbook: how Nate's videos get edited with AI
+# Playbook de edição: como editar vídeos com IA
 
-Nate's reels, Shorts, and explainers are now edited by an AI agent (Claude Code or Codex) running skills like the ones in this kit. Nate records himself talking, hands over the file, and the agent cuts it, captions it, finds the B-roll, builds the motion graphics, mixes the music and sound effects, and checks its own work.
+Reels, Shorts e vídeos explicativos podem ser editados por um agente de IA (Claude
+Code ou Codex) rodando skills como as deste kit. Você grava falando, entrega o
+arquivo, e o agente corta, legenda, encontra o B-roll, monta os motion graphics,
+mixa música e efeitos e confere o próprio trabalho.
 
-This page explains how that works and what we learned building it. The numbers come from studying Nate's own top reels frame by frame and from dozens of edit rounds where he gave notes.
+Esta página explica como isso funciona e o que aprendemos ao construir o kit. Os
+números vêm do estudo frame a frame de reels com bom desempenho e de dezenas de
+rodadas de edição com comentários.
 
-- [The loop that makes it work](#the-loop-that-makes-it-work)
-- [The edit, step by step](#the-edit-step-by-step)
-- [House reel style (the numbers)](#house-reel-style-the-numbers)
+- [O ciclo que faz funcionar](#o-ciclo-que-faz-funcionar)
+- [A edição, passo a passo](#a-edição-passo-a-passo)
+- [Estilo de reel (os números)](#estilo-de-reel-os-números)
 - [B-roll](#b-roll)
-- [Captions](#captions)
-- [Music and sound effects](#music-and-sound-effects)
-- [Other formats](#other-formats)
-- [Checking the edit](#checking-the-edit)
-- [Lessons that cost us time](#lessons-that-cost-us-time)
+- [Legendas](#legendas)
+- [Música e efeitos sonoros](#música-e-efeitos-sonoros)
+- [Outros formatos](#outros-formatos)
+- [Conferindo a edição](#conferindo-a-edição)
+- [Lições que custaram tempo](#lições-que-custaram-tempo)
 
-## The loop that makes it work
+## O ciclo que faz funcionar
 
-The edits got good because every note Nate gave became a permanent rule in a skill. He never had to give the same note twice.
+As edições ficam boas porque cada comentário vira uma regra permanente numa skill.
+Você nunca precisa dar o mesmo comentário duas vezes.
 
-1. **Record and hand over the file.** No editing app.
-2. **The agent edits and renders a draft.**
-3. **You watch it and say what you don't like, in plain words.** "I can't read that caption." "That shot doesn't move." "Those sound effects sound cheap."
-4. **The agent fixes the edit AND writes the fix into the skill** as a rule, a check, or a script change. Ask for that explicitly: "Fix it, then add this to the skill so it never happens again."
-5. **The next edit starts from the improved skill.**
+1. **Grave e entregue o arquivo.** Sem programa de edição.
+2. **O agente edita e renderiza um rascunho.**
+3. **Você assiste e diz o que não gostou, com suas palavras.** "Não dá pra ler essa
+   legenda." "Esse plano não se mexe." "Esses efeitos estão parecendo baratos."
+4. **O agente corrige a edição E escreve a correção na skill** como regra, checagem
+   ou mudança de script. Peça isso explicitamente: "Corrige e depois coloca isso na
+   skill pra nunca mais acontecer."
+5. **A próxima edição já começa da skill melhorada.**
 
-Real examples of notes that became rules:
+Exemplos reais de comentários que viraram regra:
 
-| Nate's note | What the skill does now |
+| Comentário | O que a skill faz agora |
 |---|---|
-| "White captions on a bright website are unreadable." | Every caption sits in the same dark box, and a contrast check measures the pixels behind each one. |
-| "AI-generated B-roll always beats AI-generated images." | An AI still image used as B-roll is a build error. Stills only become first frames for AI video. |
-| "Every shot has to move." | Each shot is real footage, a screen recording, an animated UI, or AI video, with a slow push-in. No frozen frames. |
-| "Those laser sound effects sound cheap." | The sound palette switched to soft taps, dry clicks, paper, and air. No pitch-drop plops or zaps. |
-| "The lips are behind the voice by the end." | Cuts select exact frames in one pass, and a sync check compares every cut frame against the raw. |
-| "Captions should never blink out." | On shots full of text to read, captions move to a clear zone instead of disappearing. |
-| "You cut out my natural pause after 'first', it feels too quick." Then, after a fix that added silence there: "You muted out the word first." | Speech is cut between phrases at real silence, never inside one. A filler that runs straight into the next word stays, because cutting it clips the words around it. |
-| "The caption covers my mouth in the first second." | A caption that runs across a cut moves with the cut, and the first 2.5 s are checked frame by frame for anything over the mouth. |
+| "Legenda branca em cima de site claro não dá pra ler." | Toda legenda fica na mesma caixa escura, e uma checagem de contraste mede os pixels atrás de cada uma. |
+| "B-roll em vídeo de IA sempre ganha de imagem de IA." | Usar imagem parada de IA como B-roll é erro de build. Imagens só viram primeiro frame de vídeo de IA. |
+| "Todo plano tem que se mexer." | Cada plano é filmagem real, gravação de tela, interface animada ou vídeo de IA, com um push-in lento. Nada de frame congelado. |
+| "Esses efeitos de laser parecem baratos." | A paleta de som trocou para toques suaves, cliques secos, papel e ar. Nada de "plop" descendo de tom nem zaps. |
+| "No final a boca está atrasada em relação à voz." | Os cortes escolhem frames exatos numa passada só, e uma checagem de sincronia compara cada frame cortado com o bruto. |
+| "A legenda nunca pode sumir." | Em planos cheios de texto para ler, a legenda vai para uma área livre em vez de desaparecer. |
+| "Você cortou minha pausa natural depois do 'primeiro', ficou corrido." Depois de uma correção que pôs silêncio ali: "Agora você engoliu a palavra 'primeiro'." | A fala é cortada entre frases, no silêncio real, nunca no meio. Uma muleta colada na palavra seguinte fica, porque cortar ela corta as palavras ao redor. |
+| "A legenda cobre minha boca no primeiro segundo." | Uma legenda que atravessa um corte se move junto com o corte, e os primeiros 2,5 s são conferidos frame a frame. |
 
-The editing knowledge lives in the skill files, so you can read it, edit it, and share it.
+O conhecimento de edição mora nos arquivos das skills, então você pode ler, editar
+e compartilhar.
 
-## The edit, step by step
+## A edição, passo a passo
 
-This is the order the `short-form-edit` and `edit-video` skills follow.
+Essa é a ordem que as skills `short-form-edit` e `edit-video` seguem.
 
-1. **Transcribe** with word-level timestamps (ElevenLabs Scribe is Nate's default; Whisper works).
-2. **Cut retakes.** Keep the last clean take of each line. Join two takes only where both sides are silent; if the takes run together, play one take whole.
-3. **Cut between phrases, never inside one.** A phrase is what you say in one breath. Remove the dead air between phrases and keep your natural beats (after a comma, after "First,"). Drop a filler only when there is silence on both sides of it: "First, what it does is it transcribes" is one phrase, and cutting "what it does is" clips the word "First". Never speed the voice up.
-4. **Plan the story before any visuals:** hook, proof, the items, the payoff, the CTA. Write it down.
-5. **Source B-roll**, one visual per noun phrase, in the preference order below.
-6. **Build the composition** in HyperFrames, every shot anchored to the spoken word it illustrates.
-7. **Mix** voice, music, and sound effects.
-8. **Render a draft, check it** (frames, sync, sound, captions), fix, then render the final.
+1. **Transcreva** com tempo por palavra (Deepgram nova-3 em `pt-BR` é o padrão do
+   kit; Whisper também funciona). Passe os nomes de marca e ferramenta com `--keyterm`.
+2. **Corte os retakes.** Fique com o último take limpo de cada frase. Junte dois
+   takes só onde os dois lados estão em silêncio; se os takes se emendam, use um
+   take inteiro.
+3. **Corte entre frases, nunca no meio.** Uma frase é o que você fala num fôlego.
+   Tire o ar morto entre frases e mantenha os seus respiros naturais (depois de uma
+   vírgula, depois de "Primeiro,"). Tire uma muleta só quando há silêncio dos dois
+   lados: em "Primeiro, o que ele faz é transcrever" é uma frase só, e cortar "o
+   que ele faz é" engole a palavra "Primeiro". Nunca acelere a voz.
+4. **Planeje a história antes dos visuais:** gancho, prova, os itens, o payoff, o
+   CTA. Escreva.
+5. **Encontre o B-roll**, um visual por substantivo, na ordem de preferência abaixo.
+6. **Monte a composição** no HyperFrames, cada plano ancorado na palavra falada que
+   ele ilustra.
+7. **Mixe** voz, música e efeitos.
+8. **Renderize um rascunho, confira** (frames, sincronia, som, legendas), corrija e
+   renderize o final.
 
-## House reel style (the numbers)
+## Estilo de reel (os números)
 
-Measured on Nate's 27 top Instagram Reels (March to September 2026). Use them as a starting point for your own style, not as law.
+Medidos em 27 reels com bom desempenho no Instagram. Use como ponto de partida para
+o seu estilo, não como lei. A fala em português costuma ser um pouco mais lenta
+em palavras por segundo do que em inglês, porque as palavras são mais longas.
 
-**Pacing**
-- Speech starts within 0.1 s. The file ends right after the last word. No intro or outro card.
-- No dead air: pauses between phrases stay under about 0.2 s. Natural beats after a comma or a list marker ("First,") run 0.2 to 0.4 s and stay. Typical gap between words is 0.04 s (median) and 0.1 s (90th percentile), at 4.0 to 4.7 words per second. Tightness comes from removing dead air between phrases.
-- Shots average 1.1 to 1.4 s, none over about 2.8 s. The first cut lands at 0.6 to 1.0 s, on the first charged word.
-- Each item in a spoken list gets its own shot.
+**Ritmo**
+- A fala começa em até 0,1 s. O arquivo termina logo depois da última palavra. Sem
+  vinheta de abertura ou encerramento.
+- Sem ar morto: pausas entre frases ficam abaixo de uns 0,2 s. Respiros naturais
+  depois de vírgula ou de marcador de lista ("Primeiro,") ficam entre 0,2 e 0,4 s.
+  O intervalo típico entre palavras é 0,04 s (mediana) e 0,1 s (percentil 90), a
+  4,0 a 4,7 palavras por segundo em inglês (espere algo como 3,5 a 4,2 em
+  português). A sensação de ritmo vem de tirar o ar morto entre frases.
+- Planos de 1,1 a 1,4 s em média, nenhum acima de uns 2,8 s. O primeiro corte cai
+  entre 0,6 e 1,0 s, na primeira palavra forte.
+- Cada item de uma lista falada ganha o seu plano.
 
-**Layouts** (1080x1920; every change is a hard cut)
-- **Split:** B-roll on top (y 0 to 880), speaker below. 30 to 42% of the reel.
-- **Full B-roll:** footage fills the frame. 50 to 55%.
-- **Punch-in:** a tight shot of the speaker for pivots, emphasis, and the CTA. 5 to 15%.
-- The speaker is on screen about 45% of the time and never gone for more than about 3.5 s.
-- The first frame is a split with the topic's tool or brand on top.
+**Layouts** (1080x1920; toda troca é corte seco)
+- **Dividido:** B-roll em cima (y de 0 a 880), quem fala embaixo. 30 a 42% do reel.
+- **B-roll cheio:** a imagem ocupa o quadro. 50 a 55%.
+- **Punch-in:** plano fechado em quem fala para viradas, ênfase e o CTA. 5 a 15%.
+- Quem fala aparece cerca de 45% do tempo e nunca some por mais de uns 3,5 s.
+- O primeiro frame é dividido, com a ferramenta ou a marca do tema em cima.
 
-**Story**
-1. Hook in the first 3 seconds: a claim or command that names the tool or person.
-2. One line of credibility or context.
-3. If there's a list, show all items early, blurred, as an open loop.
-4. Each item: a section card, a one-line definition, two or three literal visuals, a punch-in on the key line.
-5. Resolution that calls back to the hook visual.
-6. CTA: show the resource first, then a punch-in with the comment keyword.
+**História**
+1. Gancho nos 3 primeiros segundos: uma afirmação ou um comando que cita a
+   ferramenta ou a pessoa.
+2. Uma linha de credibilidade ou contexto.
+3. Se houver lista, mostre todos os itens cedo, desfocados, como loop aberto.
+4. Cada item: um card de seção, uma definição de uma linha, dois ou três visuais
+   literais, um punch-in na frase principal.
+5. Resolução que retoma o visual do gancho.
+6. CTA: mostre o material primeiro, depois um punch-in com a palavra para comentar
+   ("Comenta EDITAR que eu te mando").
 
 ## B-roll
 
-**Video beats images, every time.** The reel has to hold attention from the first frame to the last, so every shot moves. Preference order:
+**Vídeo ganha de imagem, sempre.** O reel precisa segurar a atenção do primeiro ao
+último frame, então todo plano se mexe. Ordem de preferência:
 
-1. Real footage of the thing named: the person's talk, the product's demo, your own long-form video.
-2. A real screen recording of the site or app, zoomed into the part being talked about, with a visible cursor.
-3. An animated UI mock: typing, rows ticking, a counter climbing. Label mocks as examples.
-4. AI video. Concrete metaphors work ("burn your money" = a bill burning, "hoping it works" = a slot machine). Generic "person at a computer" clips read as stock.
-5. Short highlight crops of a real page (under 1 s) on tool names, prices, badges.
+1. Filmagem real da coisa citada: a palestra da pessoa, a demo do produto, o seu
+   próprio vídeo longo.
+2. Gravação de tela real do site ou app, com zoom na parte falada e cursor visível.
+3. Interface animada de mentira: digitando, linhas aparecendo, contador subindo.
+   Indique que é exemplo.
+4. Vídeo de IA. Metáforas concretas funcionam ("queimar dinheiro" = uma nota
+   pegando fogo, "torcer pra dar certo" = um caça-níquel). Clipes genéricos de
+   "pessoa no computador" parecem banco de imagem.
+5. Recortes curtos de destaque de uma página real (menos de 1 s) em nomes de
+   ferramenta, preços e selos.
 
-Rules that came from mistakes:
-- Never invent numbers, results, or a successful test to decorate a claim.
-- A whole web page shrunk to phone size is unreadable. Crop to the phrase and highlight it on the spoken word.
-- Small UI floating in empty space is the fastest "AI edit" tell. Zoom UI so it fills the panel.
-- Never click "Accept" on cookie or terms dialogs while recording. Close them or use another page.
-- AI video models often cut to a second camera angle around 2.5 to 3 s, and text on AI screens turns to gibberish. Use the first continuous seconds and keep screens small in frame.
-- Consecutive AI shots of the same person must match (same outfit, same room). Pass the previous frame as a reference.
-- Use each B-roll scene once per reel.
+Regras que vieram de erros:
+- Nunca invente números, resultados ou um teste bem-sucedido para enfeitar uma afirmação.
+- Uma página inteira encolhida para o tamanho do celular é ilegível. Recorte a
+  frase e destaque na palavra falada.
+- Interface pequena flutuando no vazio é o sinal mais rápido de "edição de IA".
+  Dê zoom até a interface preencher o painel.
+- Nunca clique em "Aceitar" em avisos de cookies ou termos enquanto grava. Feche ou
+  use outra página.
+- Modelos de vídeo de IA costumam trocar de ângulo por volta de 2,5 a 3 s, e o texto
+  em telas de IA vira rabisco. Use os primeiros segundos contínuos e deixe telas
+  pequenas no quadro.
+- Planos de IA seguidos da mesma pessoa precisam combinar (mesma roupa, mesmo
+  ambiente). Passe o frame anterior como referência.
+- Use cada cena de B-roll uma vez por reel.
 
-## Captions
+## Legendas
 
-- 1 to 3 words per chunk, split on phrase boundaries. They hard-swap with no pop animation and appear 2 frames before the first word.
-- Montserrat ExtraBold, all caps, about 62 to 64 px, with a heavy serif accent (Abril Fatface) on 5 to 20% of chunks for soft words. Never two serif chunks in a row.
-- Color on 25 to 45% of chunks, whole chunk only: red for the wrong way or a loss, teal for the concept or keyword, green for the action or payoff.
-- **One look for the whole reel:** every caption in the same dark box with a thin light edge, so it reads on black, white, and footage alike. Mixing boxed and bare captions looked cheap.
-- **Never white on light.** Measure the pixels behind every caption.
-- Position: on the seam in a split, on the shirt in a punch-in (not the jaw), and in a clear zone when the shot is text to read.
-- **Never over the mouth or chin,** least of all in the first second, when the viewer decides whether the person on screen is real. A caption that runs across a cut moves to the new shot's spot on the cut frame.
+- 2 a 4 palavras por bloco em português (1 a 3 em inglês), quebrando nos limites
+  de frase. Trocam seco, sem animação de "pop", e aparecem 2 frames antes da
+  primeira palavra.
+- Montserrat ExtraBold, tudo em maiúsculas, uns 62 a 64 px, com um acento serifado
+  pesado (Abril Fatface) em 5 a 20% dos blocos, para palavras suaves. Nunca dois
+  blocos serifados seguidos. As duas fontes têm todos os acentos do português;
+  confira `Ç`, `Ã` e `É` em maiúsculas e deixe altura de linha de pelo menos 1,1.
+- Cor em 25 a 45% dos blocos, sempre no bloco inteiro: vermelho para o jeito errado
+  ou uma perda, verde-azulado para o conceito ou palavra-chave, verde para a ação
+  ou o payoff.
+- **Um visual só para o reel todo:** toda legenda na mesma caixa escura com uma
+  borda clara fina, para ler bem em preto, branco e imagem. Misturar legenda com e
+  sem caixa ficou com cara de amador.
+- **Nunca branco no claro.** Meça os pixels atrás de cada legenda.
+- Posição: na emenda no layout dividido, na camisa no punch-in (não no queixo) e
+  numa área livre quando o plano é texto para ler.
+- **Nunca sobre a boca ou o queixo,** principalmente no primeiro segundo, quando o
+  espectador decide se a pessoa na tela é real. Uma legenda que atravessa um corte
+  vai para o lugar certo do plano novo no frame do corte.
+- Mantenha os acentos e o jeito falado ("pra", "tá", "a gente"). "Voce" sem acento
+  parece erro para quem assiste.
 
-## Music and sound effects
+## Música e efeitos sonoros
 
-- **Pick music by mood:** a darker, confident beat for claims and news, lo-fi or chill groove for methods.
-- The bed sits about 11 dB under the voice (working range 9 to 14 dB). Duck it under speech. The first 1 to 2 s are often quieter, with the beat landing on the second line.
-- **Sound effects follow visible actions,** not every cut: a soft air whoosh on a real spatial move, a damped tap when a logo lands, a dry click for small UI, paper for documents, one short warm tone for a check, a dry stop for an X.
-- Avoid laser zaps, pitch-drop plops, sci-fi chirps, and a whoosh on every cut.
-- Vary the actual sound files for repeated items (click, tap, ceramic touch) so a list doesn't sound like a percussion loop.
-- Master near -14 LUFS with true peak at or below -1.5 dBTP. **Measure the final encoded file,** not just the WAV.
-- Never fade the last spoken word.
+- **Escolha a música pelo clima:** uma batida mais escura e confiante para
+  afirmações e notícias, lo-fi ou groove tranquilo para métodos.
+- A trilha fica uns 11 dB abaixo da voz (faixa de trabalho de 9 a 14 dB). Abaixe a
+  música sob a fala. O primeiro 1 a 2 s costuma ser mais baixo, com a batida
+  entrando na segunda frase.
+- **Efeitos seguem ações visíveis,** não todo corte: um sopro de ar suave num
+  movimento espacial real, um toque abafado quando um logo pousa, um clique seco
+  para interface pequena, papel para documentos, um tom quente curto para um check,
+  uma parada seca para um X.
+- Evite zaps de laser, "plops" descendo de tom, bipes de ficção científica e
+  whoosh em todo corte.
+- Varie os arquivos de som em itens repetidos (clique, toque, cerâmica) para uma
+  lista não soar como loop de percussão.
+- Masterize perto de -14 LUFS com true peak em -1,5 dBTP ou menos. **Meça o arquivo
+  final codificado,** não só o WAV.
+- Nunca faça fade na última palavra falada.
 
-## Other formats
+## Outros formatos
 
-**Raw reel (lighter style):** no B-roll and no music. Cut retakes, stutters, and dead air only, keeping the last clean take. One word on screen at a time, small, lower middle, synced to the exact word. When the speaker points while naming a tool, pop the tool's real logo where they point with a quiet tap. Cut only after a word fully decays; transcripts end words 40 to 80 ms before the consonant dies.
+**Reel bruto (estilo mais leve):** sem B-roll e sem música. Corte só retakes,
+gaguejos e ar morto, mantendo o último take limpo. Uma palavra na tela por vez,
+pequena, no meio de baixo, sincronizada com a palavra exata. Quando a pessoa aponta
+enquanto fala o nome de uma ferramenta, coloque o logo real onde ela aponta com um
+toque discreto. Corte só depois que a palavra termina de soar; transcrições
+terminam a palavra 40 a 80 ms antes da consoante acabar.
 
-**YouTube Short from a long-form video:** screen recording on top, face cam below, word-highlight captions on the seam. Put the value or claim in the first 3 seconds, then proofs in the long-form's order, and end on a complete takeaway. Every number on screen must be explainable from what the Short showed. Name things before using them. Keep labels below the top 130 px. Never assemble a CTA the speaker didn't say.
+**Short a partir de vídeo longo:** gravação de tela em cima, rosto embaixo,
+legendas com destaque de palavra na emenda. Coloque o valor ou a afirmação nos 3
+primeiros segundos, depois as provas na ordem do vídeo longo, e termine numa
+conclusão completa. Todo número na tela precisa ser explicável pelo que o Short
+mostrou. Apresente as coisas antes de usá-las. Deixe os rótulos abaixo dos 130 px
+do topo. Nunca monte um CTA que a pessoa não falou.
 
-**Narrated explainer (AI voice):**
-- Put the whole timeline on one clock (a beat grid) so picture, music, and sound effects all move when a line changes. Never hard-code a time a word should anchor.
-- Level every voice line to the same loudness and limit only the peaks. Scaling a whole line down to fit its loudest peak made one line 5 dB quieter.
-- Re-transcribe the full narration and compare it to the script before every render.
-- Don't play the narrator over footage of a real person talking. Viewers think that person is speaking in the AI voice.
-- End on the thesis line, spoken in the decay of the last music hit, then the logo.
-- Dim UI panels and waveforms lose viewers. Put real footage in those scenes.
+**Explicativo narrado (voz de IA):**
+- Coloque a linha do tempo inteira num relógio só (um grid de batidas), para
+  imagem, música e efeitos se moverem juntos quando uma frase muda. Nunca fixe à
+  mão o tempo em que uma palavra deve cair.
+- Nivele todas as falas na mesma loudness e limite só os picos. Baixar uma fala
+  inteira para caber no pico mais alto deixou uma fala 5 dB mais baixa.
+- Retranscreva a narração inteira e compare com o roteiro antes de cada render.
+- Não coloque o narrador sobre a imagem de uma pessoa real falando. O público acha
+  que é aquela pessoa falando com a voz de IA.
+- Termine na frase da tese, falada no fim do último impacto da música, e depois o logo.
+- Painéis de interface escuros e formas de onda perdem o público. Coloque imagens
+  reais nessas cenas.
 
-## Checking the edit
+## Conferindo a edição
 
-The agent checks its own work before you see it:
-- **Lip sync:** match cut frames against the raw. A matching frame count alone does not prove the right frames were picked.
-- **Frame strips** across every cut (10 frames each side). They catch one-frame empty panels and captions flashing over the wrong shot that single screenshots miss.
-- **Contrast** behind every caption.
-- **Every word whole:** transcribe the final render and compare the words at every cut with the raw recording. A transcript alone is not proof: speech-to-text guesses a clipped word correctly while a listener hears it broken.
-- **The first second:** read the first 2.5 s frame by frame and the first frame of every face shot. Nothing covers the mouth.
-- **Loudness and true peak** on the delivered file.
-- **AI watch tests** (a video model watching the render) are useful for candidate problems, but they are noisy and hallucinate effects. Verify every complaint on real frames before acting. A persona panel ("would this viewer finish? where did they stop?") is more useful than a 1 to 10 score.
-- **Your review is the final gate.** Nate caught a lip-sync drift that every automated check missed.
+O agente confere o próprio trabalho antes de você ver:
+- **Sincronia labial:** compare os frames cortados com o bruto. Só bater a contagem
+  de frames não prova que os frames certos foram escolhidos.
+- **Tiras de frames** em cada corte (10 frames de cada lado). Pegam painel vazio de
+  um frame e legenda piscando no plano errado, que um print isolado não pega.
+- **Contraste** atrás de cada legenda.
+- **Toda palavra inteira:** transcreva o render final e compare as palavras em cada
+  corte com a gravação bruta. A transcrição sozinha não prova nada: o
+  reconhecimento de fala adivinha certo uma palavra cortada que o ouvido percebe
+  quebrada.
+- **O primeiro segundo:** leia os primeiros 2,5 s frame a frame e o primeiro frame
+  de cada plano de rosto. Nada cobre a boca.
+- **Loudness e true peak** no arquivo entregue.
+- **Testes de "IA assistindo"** (um modelo de vídeo vendo o render) ajudam a achar
+  problemas candidatos, mas têm ruído e inventam efeitos. Confirme cada reclamação
+  nos frames reais antes de agir. Um painel de personas ("esse espectador assistiria
+  até o fim? onde parou?") ajuda mais do que uma nota de 1 a 10.
+- **Sua revisão é a última barreira.** Já aconteceu de um desvio de sincronia passar
+  por todas as checagens automáticas e só ser percebido por quem assistiu.
 
-## Lessons that cost us time
+## Lições que custaram tempo
 
-- Encoding each segment separately and concatenating drifts lip sync by about a frame at half the joins. Select exact frame numbers in one pass.
-- Download the full video stream and cut locally; seeking over HTTP for a 3 s clip took 10+ minutes.
-- Browser screen recorders capture CSS pixels, so high-DPR recordings come out small. Capture frame by frame instead.
-- Some docs sites scroll an inner container; scroll with the mouse wheel, not `window.scrollTo`.
-- A dark caption box disappears on a dark background unless it has a thin light edge.
-- Animate transforms (x, y, scale), not `top` or `left`.
-- Cutting a filler out of the middle of a phrase clips the words around it, and putting a pause there makes the clipped word sound muted. The version that worked had fewer cuts, all between phrases, and ran 5 s longer.
-- Measure loudness on the stereo delivery. A mono file reads 3 dB lower and one reel shipped too loud because of it.
-- A raw recording caps the edit. A clip with no hook and no CTA scores low no matter how well it's cut. Script the hook before you record.
+- Codificar cada segmento separado e concatenar desloca a sincronia labial em cerca
+  de um frame em metade das emendas. Selecione os frames exatos numa passada só.
+- Baixe o stream de vídeo completo e corte local; buscar por HTTP um trecho de 3 s
+  levou mais de 10 minutos.
+- Gravadores de tela no navegador capturam pixels CSS, então gravações em tela de
+  alta densidade saem pequenas. Capture frame a frame.
+- Alguns sites de documentação rolam um container interno; role com a roda do mouse,
+  não com `window.scrollTo`.
+- Uma caixa de legenda escura some em fundo escuro se não tiver uma borda clara fina.
+- Anime transforms (x, y, scale), não `top` ou `left`.
+- Cortar uma muleta do meio de uma frase engole as palavras ao redor, e colocar uma
+  pausa ali deixa a palavra cortada abafada. A versão que funcionou tinha menos
+  cortes, todos entre frases, e ficou 5 s mais longa.
+- Meça a loudness na entrega estéreo. Um arquivo mono mede 3 dB a menos e um reel
+  saiu alto demais por causa disso.
+- A gravação bruta limita a edição. Um clipe sem gancho e sem CTA vai mal por melhor
+  que seja o corte. Roteirize o gancho antes de gravar.
+- Em português, nomes de ferramentas em inglês são o erro de transcrição mais comum
+  ("Clóde Code", "êne oito ene"). Passe esses nomes com `--keyterm` e confira na
+  legenda.

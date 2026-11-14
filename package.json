@@ -1,11 +1,11 @@
 {
-  "name": "herk-edit-kit",
+  "name": "diogo-lopes-edit-kit",
   "version": "2.0.0",
   "private": true,
   "type": "commonjs",
-  "description": "Herk Edit Kit by Nate Herk, for Codex and Claude Code: long-form edits, reels, storytelling, and motion graphics.",
+  "description": "Kit de edição de vídeo com IA Diogo Lopes, para Claude Code e Codex: vídeos longos, Reels, storytelling e motion graphics.",
   "scripts": {
-    "transcribe": "node scripts/transcribe-elevenlabs.mjs",
+    "transcribe": "node scripts/transcribe-deepgram.mjs",
     "validate-beats": "node scripts/validate-beat-sync.mjs",
     "preflight": "node scripts/preflight.mjs",
     "sync:skills": "node scripts/sync-codex-skills.mjs",
@@ -19,7 +19,8 @@
     "test:media": "node scripts/smoke-media.mjs",
     "validate:short-form": "node .claude/skills/short-form-edit/scripts/validate-plan.mjs",
     "validate:footage": "node .claude/skills/short-form-edit/scripts/validate-footage.mjs",
-    "preflight:all": "node scripts/preflight-all.mjs"
+    "preflight:all": "node scripts/preflight-all.mjs",
+    "pacote": "node scripts/build-zip.mjs"
   },
   "engines": {
     "node": ">=22"

@@ -28,11 +28,15 @@ Input is normally Agent 1's `<stem>.silence-transcript.json`, so cuts land on th
 - `<stem>.cut-candidates.json` — structured candidates (type, confidence, proposed `cut` range, `removes`/`keeps` text, context, recommendation)
 - `<stem>.cut-candidates.md` — readable proposal
 
-Candidate types: `stutter` (immediate word repeat), `retake` (duplicate/near-duplicate segment via Jaccard similarity), `false_start` (short abandoned phrase that restarts).
+Candidate types: `stutter` (immediate word repeat), `retake` (duplicate/near-duplicate segment via Jaccard similarity), `false_start` (short abandoned phrase that restarts), `filler` (an isolated hesitation or verbal tic with silence on both sides).
+
+Language: `--lang pt|en` (default: the transcript's `language`, else `pt`). Tokens are Unicode-aware, so "não não" and "é é" are detected. In Portuguese, hesitations (`hum`, `ahn`, `éé`) default to `cut`; verbal tics (`né`, `tipo`, `sabe`, `entendeu`, `enfim`) default to `review` because they are often part of the speaker's voice. A filler glued to the next word is never proposed: cutting it clips the neighbouring words.
+
+Deepgram only transcribes hesitations in English. For Portuguese, an "éé" or "hum" usually shows up as a gap between words, so cut-silences shortens it like any other pause. Listen to long gaps before approving; a half-trimmed hesitation can sound worse than the whole one.
 
 ### 2. Review (the gate — REQUIRED)
 
-Read each candidate **in context** and decide keep-or-cut. The mechanical detector cannot tell intentional emphasis/rhetoric from a real flub, so do not trust `recommend` blindly — read `removes` + `context`. Common false positives: emphatic repetition ("it's never, never hands-off"), copula-then-question ("the piece is, is this…"), listing.
+Read each candidate **in context** and decide keep-or-cut. The mechanical detector cannot tell intentional emphasis/rhetoric from a real flub, so do not trust `recommend` blindly — read `removes` + `context`. Common false positives: emphatic repetition ("it's never, never hands-off" / "é muito, muito simples"), copula-then-question ("the piece is, is this…" / "o segredo é, é isso aqui"), listing, and Brazilian conversational tics the speaker uses on purpose ("né?" closing a question to the audience, "olha só", "então" opening a new section).
 
 Present the candidates to the user with a recommendation per item; collect approvals. Write the approved cuts to a file:
 

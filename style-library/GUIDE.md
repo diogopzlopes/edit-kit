@@ -82,5 +82,6 @@ Motion is half the identity, so previews are short MP4 loops (2-3s) + a poster P
 
 ## Notes
 
-- Nate's `style-templates/` (dark-graph-paper, left-glass-popout) are **reference only** — not part of this library. Borrow ideas, don't port wholesale.
+- The kit's `style-templates/` (dark-graph-paper, left-glass-popout) are **reference only** — not part of this library. Borrow ideas, don't port wholesale.
+- Localization: all bundled fonts cover Portuguese accents (á ã â é ê í ó õ ô ú ç). Text slots hold illustrative English placeholders; fill them in Brazilian Portuguese with `pt-BR` numbers (`R$ 1.997`, `12,5%`, `14/11`), allow ~20% more text length, and check uppercase accents for clipping. See `.claude/skills/short-form-edit/references/brazil-localization.md`.
 - `MOTION_PHILOSOPHY.md` and `.claude/skills/hyperframes/` (palettes, transitions, typography, visual-styles) are shared craft resources every style can draw on.

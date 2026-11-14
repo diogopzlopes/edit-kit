@@ -1,50 +1,66 @@
-# Reels and YouTube Shorts
+# Reels, TikTok e YouTube Shorts
 
-Use `short-form-edit` for a raw talking-head recording, reel, YouTube Short, or
-short advertisement. It defaults to 1080x1920. Request a separately composed
-1920x1080 version when needed; a center crop is not a second composition.
+Use o `short-form-edit` para uma gravação bruta de alguém falando, um reel, um
+TikTok, um Short ou um anúncio curto. O padrão é 1080x1920, 30 fps. Peça uma versão
+1920x1080 composta separadamente quando precisar; um corte central não é uma
+segunda composição.
 
-## Start
+## Comece
 
-Run `npm run new-video -- my-reel`, then ask Codex (`$short-form-edit`) or Claude
-Code (`/short-form-edit`) to edit your local recording into that project. State
-the audience, intended action, target duration, and any brand preferences.
-The starter is landscape; the skill must set the reel's composition dimensions,
-layout, and metadata to 1080x1920 before authoring. Keep all source footage and
-outputs inside the new project.
+Rode `npm run new-video -- meu-reel` e peça ao Claude Code (`/short-form-edit`) ou
+ao Codex (`$short-form-edit`) para editar sua gravação local nesse projeto. Diga o
+público, a ação que você quer (comentar, salvar, seguir, clicar no link da bio), a
+duração alvo e as preferências de marca. O projeto inicial é horizontal; a skill
+precisa definir as dimensões, o layout e os metadados para 1080x1920 antes de
+montar. Mantenha todas as imagens e saídas dentro do projeto novo.
 
-1. Transcribe with ElevenLabs Scribe, your chosen alternative, or reuse verified word timestamps.
-2. Review mistakes in context and establish one frame-aligned edit decision list.
-3. Explore three opening directions and choose a truthful promise and payoff.
-4. Plan scenes, exact captions, moving footage, and sound cues against retained words.
-5. Build the composition with the HyperFrames and GSAP skills. Use a footage ledger
-   to record provenance and prevent unintentional reuse of the same source scene.
-6. Validate, preview, render a draft, inspect frames, and listen to the full edit.
-7. Resolve timing, audio, and composition problems before exporting the final video.
+1. Transcreva com o Deepgram (pt-BR), com outra alternativa, ou reaproveite timestamps conferidos.
+2. Revise os erros no contexto e monte uma lista única de decisões de edição alinhada aos frames.
+3. Explore três aberturas e escolha uma promessa e um payoff verdadeiros.
+4. Planeje cenas, legendas exatas, imagens em movimento e efeitos sonoros a partir das palavras mantidas.
+5. Monte a composição com as skills de HyperFrames e GSAP. Use um registro de imagens
+   (footage ledger) para guardar a origem e evitar repetir a mesma cena sem querer.
+6. Valide, faça o preview, renderize um rascunho, confira os frames e ouça a edição inteira.
+7. Resolva tempo, áudio e composição antes de exportar o vídeo final.
 
-Nate uses ElevenLabs Scribe for transcription and Kie.ai for generated video and
-image assets. Students need their own keys and credits for those services. Whisper
-is a transcription alternative, and existing footage can replace generated assets.
-See [tools, accounts, and API keys](TOOLS-AND-API-KEYS.md) for setup and copyable
-prompts. Honor existing authorization when proposing paid assets. The synthetic
-validation example needs no paid service.
+## Padrões para o Brasil
 
-## Validate from the repository root
+A referência [brazil-localization.md](../.claude/skills/short-form-edit/references/brazil-localization.md)
+define o que a skill segue por padrão:
+
+- **Legendas:** 2 a 4 palavras por bloco (o português é cerca de 20% mais longo que
+  o inglês), sempre com acento, palavras curtas ("de", "o", "que") junto da
+  seguinte, e espaço de linha para acento em maiúscula (`É`, `Ã`, `Ç`).
+- **Números:** `R$ 1.997`, `12,5%`, `1,5 mi de views`, `14/11`, `19h30`, sempre
+  formatados com `Intl` em `pt-BR`, inclusive nos números que contam animados.
+- **Formato:** 1080x1920 para Reels e TikTok, com legendas entre y=220 e y=1580 e
+  longe dos 140 px da direita, onde ficam os botões. A capa do Reels mostra o
+  centro 4:5 no grid do perfil.
+- **CTA natural:** "Comenta EDITAR que eu te mando", "Salva pra não perder",
+  "Segue pra parte 2", "Link na bio".
+- **Registro falado:** "pra", "tá", "a gente" ficam como foram ditos.
+
+O Kie.ai é a sugestão do kit para gerar vídeo e imagem. Os alunos precisam de chave
+e créditos próprios. Imagens que você já tem podem substituir os assets gerados.
+Veja [ferramentas, contas e chaves de API](TOOLS-AND-API-KEYS.md). O exemplo
+sintético de validação não precisa de nenhum serviço pago.
+
+## Valide a partir da raiz do repositório
 
 ```sh
-npm run validate:short-form -- video-projects/my-reel
-npm run validate:footage -- video-projects/my-reel
-node scripts/preflight.mjs video-projects/my-reel
+npm run validate:short-form -- video-projects/meu-reel
+npm run validate:footage -- video-projects/meu-reel
+node scripts/preflight.mjs video-projects/meu-reel
 ```
 
-The first validator reads `assets/plan.json`, `assets/transcript.json`, and
-`assets/edit-decisions.json`. The second reads the plan and, for moving footage,
-`assets/footage-ledger.json`, checks hashes, and confirms referenced files exist.
-Follow the [plan schema](../.claude/skills/short-form-edit/references/plan-schema.md).
-Use the [reference worksheet](../.claude/skills/short-form-edit/references/reference-analysis.md)
-when analyzing a supplied reference video.
+O primeiro validador lê `assets/plan.json`, `assets/transcript.json` e
+`assets/edit-decisions.json`. O segundo lê o plano e, para imagens em movimento,
+`assets/footage-ledger.json`, confere os hashes e se os arquivos existem. Siga o
+[esquema do plano](../.claude/skills/short-form-edit/references/plan-schema.md). Use
+a [ficha de análise de referência](../.claude/skills/short-form-edit/references/reference-analysis.md)
+quando for estudar um vídeo de referência.
 
-Try the synthetic fixture without a recording or API key:
+Teste com o exemplo sintético, sem gravação nem chave:
 
 ```sh
 npm run validate:short-form -- examples/short-form
@@ -52,7 +68,8 @@ npm run validate:footage -- examples/short-form
 npm test
 ```
 
-The fixture contains invented words and timing data, not a rendered reel.
-Validators check structure and declared timing. They do not prove a compelling
-hook, factual claims, rights to footage, correct visual cropping, or audible sync.
-The skill's quality gates require watching and listening to the actual output.
+O exemplo tem palavras e tempos inventados, não um reel renderizado. Os validadores
+conferem a estrutura e os tempos declarados. Eles não provam que o gancho é bom,
+que as afirmações são verdadeiras, que você tem direito às imagens, que o
+enquadramento está certo nem que o áudio está sincronizado. Os critérios de
+qualidade da skill exigem assistir e ouvir o resultado de verdade.

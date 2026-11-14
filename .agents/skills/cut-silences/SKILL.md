@@ -16,12 +16,13 @@ This agent is deterministic and transcript-driven, so its output (`*.silence-tra
 
 ## Prerequisites
 
-A word-level transcript JSON. Either the ElevenLabs Scribe shape
+A word-level transcript JSON in the kit shape
 (`{ words: [{ text, start, end, type }], audio_duration_secs }`) or a generic
-`{ words: [{ text, start, end }] }`. Generate one with the workspace transcriber:
+`{ words: [{ text, start, end }] }`. Generate one with the workspace transcriber
+(Deepgram nova-3, Brazilian Portuguese by default):
 
 ```bash
-node scripts/transcribe-elevenlabs.mjs path/to/raw.mp4    # -> path/to/raw.json
+node scripts/transcribe-deepgram.mjs path/to/raw.mp4    # -> path/to/raw.json
 ```
 
 ## Usage

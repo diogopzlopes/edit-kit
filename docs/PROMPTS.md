@@ -1,32 +1,49 @@
-# Prompt recipes
+# Receitas de prompt
 
-**Complete edit:** Use edit-video on [path]. Preserve the examples and core
-lessons. Tighten pauses, propose mistake cuts, plan the visual arc, and build a
-HyperFrames draft in video-projects/[slug].
+Copie, troque o que está entre colchetes e cole no Claude Code ou no Codex.
 
-**Mistakes only:** Use cut-mistakes with [edited transcript] and its matching
-[edited video]. Explain each proposed removal and preserve intentional emphasis.
+**Edição completa:** Use o edit-video em [caminho]. Preserve os exemplos e os pontos
+principais. Encurte as pausas, proponha os cortes de erro, planeje o arco visual e
+monte um rascunho em HyperFrames em video-projects/[nome].
 
-**Story pass:** Use video-storytelling to plan a persistent visual world for
-[script]. Mark the hook, open loops, camera framing, callbacks, and payoff.
+**Só os erros:** Use o cut-mistakes com [transcrição editada] e o [vídeo editado]
+correspondente. Explique cada corte proposto e preserve a ênfase intencional e
+muletas que fazem parte do meu jeito de falar ("né?" no fim de uma pergunta).
 
-**Motion graphics:** Use style-library and hyperframes-video-beats to select
-three useful overlays for this transcript. Give each a verbatim anchor and keep
-the speaker readable. Follow the project's DESIGN.md.
+**Passada de história:** Use o video-storytelling para planejar um mundo visual
+persistente para [roteiro]. Marque o gancho, os loops abertos, o enquadramento, os
+callbacks e o payoff.
 
-**Verify:** Inspect the actual rendered MP4, its transition frames, and its audio
-joins. Fix visible defects and write VERIFY.md with evidence and limitations.
+**Motion graphics:** Use o style-library e o hyperframes-video-beats para escolher
+três overlays úteis para esta transcrição. Dê a cada um uma âncora com as palavras
+exatas e mantenha quem fala visível. Siga o DESIGN.md do projeto. Todo texto em
+português, com números em formato brasileiro.
 
-**Showreel:** Use motion-showreel to build a 15-second showreel for [brand] from
-[music or reference]. Measure the beat grid first, map six or seven chapters to the
-brand's own objects, and show me the storyboard and beat sheet before building.
+**Verificação:** Confira o MP4 renderizado de verdade, os frames das transições e as
+emendas de áudio. Corrija os defeitos visíveis e escreva o VERIFY.md com evidências
+e limites.
 
-## A reel with a clear payoff
+**Showreel:** Use o motion-showreel para montar um showreel de 15 segundos para
+[marca] a partir de [música ou referência]. Meça o grid de batidas primeiro, ligue
+seis ou sete capítulos a objetos da própria marca e me mostre o storyboard e a
+folha de batidas antes de construir.
 
-> Use short-form-edit to create a 9:16 reel from [local recording]. Explore three
-> opening directions, then build the strongest truthful promise and payoff. Keep
-> captions word-exact and choose moving footage for specific story beats. Show me
-> the rough edit before polishing. Save the project and review evidence together.
+**Transformar comentário em regra:** Corrija isso e depois escreva essa correção na
+skill como regra, para nunca mais acontecer: [seu comentário].
 
-See [the short-form walkthrough](SHORT-FORM.md) for the expected plan files and
-validator commands.
+## Um reel com payoff claro
+
+> Use o short-form-edit para criar um reel 9:16 a partir de [gravação local].
+> Explore três aberturas e monte a promessa e o payoff mais fortes e verdadeiros.
+> Mantenha as legendas exatas e escolha imagens em movimento para beats específicos.
+> Termine com o CTA "Comenta [PALAVRA] que eu te mando". Me mostre o corte bruto
+> antes de polir. Salve o projeto e as evidências de revisão juntos.
+
+## Um Short a partir de um vídeo longo
+
+> Use o short-form-edit para tirar um Short de 45 segundos de [vídeo longo] sobre
+> [tema]. Coloque o valor nos 3 primeiros segundos, mantenha a ordem das provas do
+> vídeo original e termine numa conclusão completa. Não monte um CTA que eu não falei.
+
+Veja o [guia de short-form](SHORT-FORM.md) para os arquivos de plano e os comandos
+dos validadores.

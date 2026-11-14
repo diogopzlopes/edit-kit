@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Agent 1 — Cut Silences
-// Pure pause/silence trimmer. Takes any word-level transcript (ElevenLabs Scribe
+// Pure pause/silence trimmer. Takes any word-level transcript (Deepgram or ElevenLabs Scribe
 // shape, or { words: [{ text, start, end }] }) and removes silences only:
 //   - dead air before the first word and after the last word (head/tail trim)
 //   - inter-word pauses longer than --gap, trimmed down to a natural breath
@@ -30,6 +30,14 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, join, resolve, basename, extname } from "node:path";
 import { spawnSync } from "node:child_process";
 import { argv, exit } from "node:process";
+
+// FFmpeg 7+ reads a filtergraph file with "-/filter_complex"; FFmpeg 6 (Ubuntu/Debian
+// apt) only knows "-filter_complex_script". Git builds report no number: assume new.
+function filterScriptFlag() {
+  const r = spawnSync("ffmpeg", ["-hide_banner", "-version"], { encoding: "utf8" });
+  const m = r.stdout?.match(/ffmpeg version n?(\d+)\./);
+  return m && Number(m[1]) < 7 ? "-filter_complex_script" : "-/filter_complex";
+}
 
 function die(msg, code = 1) {
   console.error(msg);
@@ -277,7 +285,7 @@ if (opts.video) {
 
   const ffArgs = [
     "-y", "-i", videoPath,
-    "-/filter_complex", scriptPath,
+    filterScriptFlag(), scriptPath,
     "-map", "[v]", "-map", "[a]",
     "-c:v", "libx264", "-preset", "medium", "-crf", "18",
     "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart",
