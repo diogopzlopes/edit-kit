@@ -107,7 +107,7 @@ function readAnchor(srcRelative) {
   } catch (e) {
     return { err: `missing-file: ${srcRelative}` };
   }
-  // Root div: the inner div immediately inside <template id="..."> â€” its data-composition-id
+  // Root div: the inner div immediately inside <template id="..."> — its data-composition-id
   // matches the outer wiring. Match data-anchor on ANY div within the file (first occurrence).
   const m = html.match(/data-anchor\s*=\s*["']([^"']*)["']/);
   if (!m) return { anchor: null };
@@ -117,7 +117,7 @@ function readAnchor(srcRelative) {
 /** Find the earliest word in transcript at or after minStart whose joined text contains phrase. */
 function findAnchorStart(words, phrase, minStart, maxStart = Infinity) {
   if (!phrase) return null;
-  const needle = phrase.toLowerCase();
+  const needle = phrase.normalize("NFC").toLowerCase();
   const needleTokens = needle.split(/\s+/).filter(Boolean);
   if (needleTokens.length === 0) return null;
   // Multi-word match: slide a window over words[] starting at index i; compare joined lower-case
@@ -127,17 +127,17 @@ function findAnchorStart(words, phrase, minStart, maxStart = Infinity) {
     // Build candidate window = words[i..i+needleTokens.length-1]
     const window = [];
     for (let k = 0; k < needleTokens.length && i + k < words.length; k++) {
-      window.push((words[i + k].word || "").toLowerCase());
+      window.push((words[i + k].word || "").normalize("NFC").toLowerCase());
     }
-    const joined = window.join(" ").replace(/[^a-z0-9\/\.\-]/g, " ").replace(/\s+/g, " ").trim();
-    const norm = needle.replace(/[^a-z0-9\/\.\-]/g, " ").replace(/\s+/g, " ").trim();
+    const joined = window.join(" ").replace(/[^\p{L}\p{N}\/\.\-]/gu, " ").replace(/\s+/g, " ").trim();
+    const norm = needle.replace(/[^\p{L}\p{N}\/\.\-]/gu, " ").replace(/\s+/g, " ").trim();
     if (joined.startsWith(norm)) {
       return words[i].start;
     }
     // Also try single-word substring (for things like "/context" inside "slash context")
     if (needleTokens.length === 1) {
-      const w = (words[i].word || "").toLowerCase().replace(/[^a-z0-9\/\.\-]/g, "");
-      const need = needle.replace(/[^a-z0-9\/\.\-]/g, "");
+      const w = (words[i].word || "").normalize("NFC").toLowerCase().replace(/[^\p{L}\p{N}\/\.\-]/gu, "");
+      const need = needle.replace(/[^\p{L}\p{N}\/\.\-]/gu, "");
       if (need && w.includes(need)) return words[i].start;
     }
   }
@@ -171,7 +171,7 @@ function main() {
   const html = readFileSync(INDEX_HTML, "utf8");
   const beats = parseIndex(html);
   if (beats.length === 0) {
-    console.error("No beats parsed from index.html â€” check the regex / file format");
+    console.error("No beats parsed from index.html — check the regex / file format");
     process.exit(2);
   }
   const starts = resolveStarts(beats);
@@ -263,7 +263,7 @@ function printTable(rows) {
     r.id,
     r.start != null ? r.start.toFixed(2) : "",
     r.duration.toFixed(2),
-    (r.anchor ?? "â€”").slice(0, 32),
+    (r.anchor ?? "—").slice(0, 32),
     r.wordStart != null ? r.wordStart.toFixed(2) : "",
     r.slack != null ? r.slack.toFixed(2) : "",
     r.status,
