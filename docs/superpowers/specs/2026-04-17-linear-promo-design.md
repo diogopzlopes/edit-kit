@@ -1,19 +1,19 @@
 # Spec — Linear.app 30s Promo (Infinite-style)
 
 **Date:** 2026-04-17
-**Author:** Nate + Claude
+**Author:** User + Claude
 **Project slug:** `linear-promo-30s`
 
 ## Summary
 
-A 30-second, 1920×1080 @ 30fps showpiece promo for Linear (linear.app), authored in HyperFrames and styled as a near-twin of the Infinite Global Payments reference spot. The piece is a fan/spec promo — unsolicited — whose purpose is to demonstrate what Claude + HyperFrames + `MOTION_PHILOSOPHY.md` can produce end-to-end for a real business use case, ready to show Nate's audience.
+A 30-second, 1920×1080 @ 30fps showpiece promo for Linear (linear.app), authored in HyperFrames and styled as a near-twin of the Infinite Global Payments reference spot. The piece is a fan/spec promo — unsolicited — whose purpose is to demonstrate what Claude + HyperFrames + `MOTION_PHILOSOPHY.md` can produce end-to-end for a real business use case, ready to show the creator's audience.
 
 ## Context
 
-Nate wants a demo that proves the motion-philosophy workflow against a real business. Linear was chosen because:
+the user wants a demo that proves the motion-philosophy workflow against a real business. Linear was chosen because:
 - Dark-native brand aesthetic doesn't fight the Infinite dark-chrome look
 - Three clean pillars (Plan / Build / Monitor — pulled live from linear.app 2026-04-17) rhyme with Infinite's Dash / API / SDK structure
-- Linear's current hero — *"The product development system for teams and agents"* — maps directly onto Nate's AI-automation audience
+- Linear's current hero — *"The product development system for teams and agents"* — maps directly onto the creator's AI-automation audience
 - Beautiful product = the promo has to earn its keep visually (forces discipline)
 
 Goal: a 30s render that a viewer couldn't tell wasn't commissioned by Linear.
@@ -118,7 +118,7 @@ Three-act structure, rule of threes at every layer. Cuts hide in whips; beats fo
 
 - **Linear screenshots**: use Playwright (already installed) to capture linear.app at 1920×1080. Target the three pillar sections by scrolling the homepage and screenshotting each pillar block (Plan, Build, Monitor) at its in-view position, OR capture dedicated pages if the homepage scroll doesn't yield clean framings. Export as high-DPI PNG. Fallback: hand-craft mock Linear screens in HTML/CSS if real captures don't composite well against the Infinite aesthetic.
 - **Linear logo + symbol**: trace from the live site's SVG (linear.app ships their logo inline). Copy the SVG path data directly — no PNG fallback needed.
-- **Warm ambient pad**: source a 30s royalty-free ambient pad from Nate's shared music stash (check root `assets/` and project-level); fall back to generating a simple drone via `npx hyperframes tts` or ffmpeg sine synthesis.
+- **Warm ambient pad**: source a 30s royalty-free ambient pad from the creator's shared music stash (check root `assets/` and project-level); fall back to generating a simple drone via `npx hyperframes tts` or ffmpeg sine synthesis.
 - **SFX (whooshes, click twinkle)**: source from free sound library; keep files under 100KB each.
 - **Font files**: NONE. All fonts loaded per-composition from Google Fonts CDN.
 
@@ -135,7 +135,7 @@ Three-act structure, rule of threes at every layer. Cuts hide in whips; beats fo
 | Risk | Mitigation |
 |------|-----------|
 | Linear screenshot quality / freshness | Capture at spec time; if their UI changes, the screenshots date but the promo still plays |
-| Fan-promo legal concern (Linear's branding) | Keep internal / demo-only; if Nate shares publicly, add "Unofficial fan concept" micro-caption bottom-left for 1s during outro |
+| Fan-promo legal concern (Linear's branding) | Keep internal / demo-only; if the user shares publicly, add "Unofficial fan concept" micro-caption bottom-left for 1s during outro |
 | 30s over-stuffing | Track 18 beats at 1.67s avg — already tight. If lint / render reveals overflow, cut the "Monitor" phone surface (18.0–19.5s) first since it's structurally duplicative of "Plan" |
 | Black-frame flashes between beats | Law #11 padding + diagnostic snippet run before every render (per-project checklist) |
 | Caption overlap with hero type | Track-index 30+ for all captions; visual verification frame-check per §4 |
@@ -149,7 +149,7 @@ Three-act structure, rule of threes at every layer. Cuts hide in whips; beats fo
 5. `Read` each frame — confirm: no cropped logos, no text overflow, whip transitions landing on beat boundaries, chrome gradients present on all headline type, grid+vignette+grain on every scene
 6. Iterate fix → re-draft → re-verify until every frame passes
 7. Final: `npx hyperframes render --quality standard --output renders/linear-promo-final.mp4`
-8. Report path + duration back to Nate
+8. Report path + duration back to the user
 
 ## Next Step
 

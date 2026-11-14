@@ -720,14 +720,14 @@ Expected: no errors. Warnings about missing sub-comps for 02–08 are fine.
 
 - [ ] **Step 4: Preview in Studio — gate 1**
 
-Start Studio in the background, then hand the URL to Nate:
+Start Studio in the background, then hand the URL to the user:
 ```bash
 npx hyperframes preview
 ```
 
-Studio runs on http://localhost:3002. Tell Nate: "Beat 01 is live — scrub `http://localhost:3002/?comp=01-problem-type`. Wait for sign-off before moving on."
+Studio runs on http://localhost:3002. Tell the user: "Beat 01 is live — scrub `http://localhost:3002/?comp=01-problem-type`. Wait for sign-off before moving on."
 
-WAIT for Nate's explicit "looks good" / "go" before Step 5.
+WAIT for the creator's explicit "looks good" / "go" before Step 5.
 
 - [ ] **Step 5: Commit**
 
@@ -954,7 +954,7 @@ npx hyperframes lint
 
 - [ ] **Step 4: Preview gate 1 — Studio**
 
-Start preview (if not still running from last task, it hot-reloads). Hand Nate `http://localhost:3002/?comp=02-card-to-logo`. Wait for sign-off.
+Start preview (if not still running from last task, it hot-reloads). Hand the user `http://localhost:3002/?comp=02-card-to-logo`. Wait for sign-off.
 
 - [ ] **Step 5: Commit**
 
@@ -1131,7 +1131,7 @@ Add above the trailing placeholder comment:
 npx hyperframes lint
 ```
 
-- [ ] **Step 4: Preview gate — hand Nate `http://localhost:3002/?comp=03-brand-reveal`, wait for sign-off.**
+- [ ] **Step 4: Preview gate — hand the user `http://localhost:3002/?comp=03-brand-reveal`, wait for sign-off.**
 
 - [ ] **Step 5: Commit**
 
@@ -1814,7 +1814,7 @@ Path: `video-projects/linear-promo-30s/compositions/06-wheel-pillars.html`
 npx hyperframes lint
 ```
 
-Preview URL: `http://localhost:3002/?comp=06-wheel-pillars`. Wait for Nate.
+Preview URL: `http://localhost:3002/?comp=06-wheel-pillars`. Wait for the user.
 
 - [ ] **Step 4: Commit**
 
@@ -2077,7 +2077,7 @@ Path: `video-projects/linear-promo-30s/compositions/07-foundation.html`
 npx hyperframes lint
 ```
 
-`http://localhost:3002/?comp=07-foundation`. Wait for Nate.
+`http://localhost:3002/?comp=07-foundation`. Wait for the user.
 
 - [ ] **Step 4: Commit**
 
@@ -2301,7 +2301,7 @@ Path: `video-projects/linear-promo-30s/compositions/08-cta-outro.html`
 npx hyperframes lint
 ```
 
-`http://localhost:3002/?comp=08-cta-outro`. Wait for Nate.
+`http://localhost:3002/?comp=08-cta-outro`. Wait for the user.
 
 - [ ] **Step 4: Commit**
 
@@ -2544,9 +2544,9 @@ npx serve . -p 8080 -n
 
 Leave it running in the background.
 
-- [ ] **Step 2: Hand Nate the URL + wait for sign-off**
+- [ ] **Step 2: Hand the user the URL + wait for sign-off**
 
-Give Nate: `http://localhost:8080/linear-promo-draft.mp4`
+Give the user: `http://localhost:8080/linear-promo-draft.mp4`
 
 Tell him explicitly: "Scrub the full MP4. Confirm pacing, audio sync, all three signature moves (color recolor 13.8s, chrome wheel 20–21s, 5s outro hold 25–30s) read correctly. Reply 'ship it' when ready for the final render."
 
@@ -2594,7 +2594,7 @@ ffmpeg -y -ss 27.0 -i renders/linear-promo-final.mp4 -frames:v 1 -q:v 2 renders/
 
 `Read` each of the three final-*.png frames. Confirm they match the draft at those timestamps (same visual content, just cleaner encoding).
 
-- [ ] **Step 5: Report to Nate**
+- [ ] **Step 5: Report to the user**
 
 Send a message summarizing:
 - Final path: `video-projects/linear-promo-30s/renders/linear-promo-final.mp4`
@@ -2634,7 +2634,7 @@ git commit -m "render(linear): final 1080p standard-quality MP4"
 - Audio wiring → Task 13
 - Law #11 diagnostic → Task 14
 - Draft render + frame verification → Task 15
-- Nate preview gate → Task 16
+- the user preview gate → Task 16
 - Final render → Task 17
 
 **Placeholder scan:** No TBD/TODO entries. Every composition includes full HTML/CSS/JS. Every ffmpeg command is complete. Every path is absolute-relative to the project folder.

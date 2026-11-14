@@ -1,4 +1,4 @@
-# Herk Edit Kit: workspace guide
+# Diogo Lopes Edit Kit: workspace guide
 
 Turn a talking-head recording into an intentional edit using local HyperFrames
 rendering, transcript-driven cuts, and reusable motion graphics.
@@ -60,9 +60,10 @@ new personal footage. Never print secrets or copy private media into library exa
 
 Before choosing a transcription, asset-generation, or voiceover service, read
 `docs/TOOLS-AND-API-KEYS.md` and check the user's provider choice and local setup.
-ElevenLabs Scribe is Nate's default; honor requests for OpenAI Whisper, local
-Whisper, or another provider. Normalize verified word timestamps for the cutting
-tools. The included transcription script is ElevenLabs-only. Kie.ai is optional
+Deepgram nova-3 in Brazilian Portuguese is the kit default
+(`node scripts/transcribe-deepgram.mjs <source>`); honor requests for OpenAI
+Whisper, local Whisper, or another provider. Normalize verified word timestamps
+for the cutting tools. The included transcription script is Deepgram-only. Kie.ai is optional
 and needs a configured integration and credits. Reuse existing transcripts and
 assets; make any unapproved uploads or paid calls concrete before asking.
 
@@ -100,5 +101,15 @@ Automated browser checks must be headless, with Pointer Lock and cursor capture
 disabled; synthetic input must remain inside the virtual browser.
 
 For short-form edits, read `docs/SHORT-FORM.md` and `docs/EDITING-PLAYBOOK.md`
-(Nate's measured house style and lessons), and use the plan and footage
+(the kit's measured house style and lessons), and use the plan and footage
 validators. Structural checks supplement rendered video and audio review.
+
+## Language and audience
+
+Students and viewers are Brazilian. Reply to the user in Brazilian Portuguese
+unless they write in another language. Speech defaults to `pt-BR`; on-screen copy
+keeps accents, uses `pt-BR` number, currency (R$), and date (dd/mm) formats, and
+targets Reels, TikTok, and Shorts first. Follow
+`.claude/skills/short-form-edit/references/brazil-localization.md`.
+Student-facing docs in `docs/` and `README.md` are in Portuguese; skill
+instructions stay in English.

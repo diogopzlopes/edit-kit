@@ -1,4 +1,4 @@
-name: Check Herk Edit Kit
+name: Check Diogo Lopes Edit Kit
 on: [push, pull_request]
 permissions:
   contents: read

@@ -22,10 +22,15 @@ this test. Treat the answer as editorial judgment until audience data exists.
 
 ## House style and notes
 
-Read `docs/EDITING-PLAYBOOK.md` before planning. It holds Nate's measured reel
+Read `docs/EDITING-PLAYBOOK.md` before planning. It holds the kit's measured reel
 style (pacing, layouts, captions, B-roll order, sound palette), the raw-reel,
 long-to-Short, and narrated-explainer variants, and the lessons that cost time.
 Use it as the default when the user gives no style; the user's brief wins.
+
+The default audience is Brazilian and the default speech is Brazilian Portuguese.
+Read [brazil-localization.md](references/brazil-localization.md) for transcription
+flags, Portuguese caption rules, accent-safe fonts, `pt-BR` number, money, and date
+formatting, Reels/TikTok safe areas, and natural CTAs.
 
 When the user gives a note on a draft, fix the edit, then offer to write the
 note into the relevant skill or reference as a rule, check, or script change, so
@@ -38,7 +43,8 @@ the next edit starts from it. Record the note and the resulting rule together.
    over aesthetic defaults. Keep all artifacts in `video-projects/<slug>/`.
 2. Probe the supplied source and reference: duration, dimensions, frame rate,
    audio, and existing transcript identity. Preserve originals. Transcribe with
-   the student's chosen provider; ElevenLabs Scribe is Nate's default. Read
+   the student's chosen provider; Deepgram nova-3 (pt-BR) is the kit default
+   (`node scripts/transcribe-deepgram.mjs <source>`). Read
    `docs/TOOLS-AND-API-KEYS.md` for Whisper alternatives, word-timestamp
    normalization, credentials, and service costs. Never substitute an older take.
 3. When a reference is supplied, inspect the entire reel using contact sheets,
@@ -245,7 +251,7 @@ human reactions where they support the story.
 
 ## Generate and assemble
 
-1. Kie.ai is Nate's optional provider for generated moving inserts and images.
+1. Kie.ai is the kit's suggested optional provider for generated moving inserts and images.
    Use the student's chosen provider or supplied assets; check its account, credits,
    and integration before generating. See `docs/TOOLS-AND-API-KEYS.md`. Verify the
    current official API schema. Save model, prompt, task ID, selected output,

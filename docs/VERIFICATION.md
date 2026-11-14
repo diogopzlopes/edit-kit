@@ -1,59 +1,47 @@
-# Release verification
+# Verificação do kit
 
-## Consolidated Herk Edit Kit, version 2
+## Como conferir uma instalação
 
-- All 14 canonical skills passed frontmatter validation, and all 94 skill resources
-  match the Codex mirrors. The distribution check reports zero errors across
-  406 cards and both skill trees.
-- A clean `npm ci` succeeded. All 11 behavior tests passed, including new checks
-  for caption drift, incorrect source mapping, scene coverage, footage reuse,
-  missing ledger rows, and changed footage hashes.
-- The starter passed preflight and HyperFrames lint with zero errors or warnings.
-- The synthetic media smoke check passed again: silence output 3.960 seconds,
-  clean output 3.673 seconds versus a 3.660-second transcript.
-- All original `video-projects/` and root `assets/` files were retained unchanged.
-  They were not all re-rendered. No real reel or paid generation was run for this
-  migration; short-form verification covers its validators and resource package.
+```sh
+npm ci
+npm run check
+npm test
+npm run test:media
+```
 
-## Original pipeline release evidence
+Depois crie um projeto inicial novo (`npm run demo`), rode lint e preview,
+renderize e confira o resultado.
 
-The following rendering evidence comes from the pipeline release before this
-merge. Its starter and editing implementation are retained.
+- `npm run check` valida a sintaxe do JavaScript, o frontmatter das skills e os
+  recursos citados, o espelhamento entre `.claude/skills` e `.agents/skills`, a
+  contagem do registro, os IDs únicos, os campos declarados e as dependências locais
+  dos 406 cards. Dois cards montam alguns campos em JavaScript; a declaração é
+  conferida, não o DOM executado.
+- `npm test` cobre: retiming de silêncio, corte de gaguejo revisado, edição sem
+  cortes, cortes fora dos limites, tempo dos beats, desvio de legenda, mapeamento
+  da fonte, cobertura de cenas, reuso de imagens e, em português, a normalização da
+  resposta do Deepgram, o pedido padrão em `pt-BR`, gaguejos com acento ("não não"),
+  muletas isoladas ("hum") e âncoras de beat com acento.
+- `npm run test:media` gera um padrão de teste de oito segundos com um tom,
+  renderiza as duas etapas de corte e monta o HTML de revisão da EDL.
 
+## O que foi conferido nesta versão
 
-Verified locally on Windows, September 8, 2026, using Node 24.15.0,
-FFmpeg 8.1.1, and HyperFrames 0.7.109.
+- Transcrição: o script do Deepgram foi testado de ponta a ponta contra um servidor
+  local que simula a API (extração de áudio, envio, parâmetros `nova-3`/`pt-BR`,
+  `keyterm`, gravação do JSON normalizado e limpeza do mp3 temporário). Nenhuma
+  chamada paga ao Deepgram foi feita nos testes; faça uma transcrição curta com a
+  sua chave para conferir sua conta.
+- O detector de erros e o validador de beats passaram a comparar palavras com
+  acento corretamente. Antes, "não" virava "n" e "é" sumia.
 
-- Clean dependency install succeeded; npm reported zero known vulnerabilities.
-- Root AGENTS.md and CLAUDE.md match. Ten skill packages and every supporting
-  resource match their generated Codex mirrors.
-- The kit check validates JavaScript syntax, skill frontmatter and linked resources,
-  registry counts, unique IDs, declared slots, and local card dependencies.
-  All 406 card files resolve. Two cards construct some slots in JavaScript;
-  their source declarations are checked, not their executed DOM.
-- Five behavior tests pass: silence retiming, reviewed stutter removal, empty-cut
-  identity behavior, invalid cut bounds, and early/late beat timing. The CLI
-  accepts explicit project paths and attribute order independent of old examples.
-- `npm run test:media` generated an eight-second test pattern with a sine tone,
-  rendered both editing stages, and built the EDL review HTML. The silence output
-  was 3.960 seconds; the clean output was 3.673 seconds against a 3.660-second
-  transcript. A/V durations differ by less than 0.04 seconds.
-- The starter passed preflight and HyperFrames lint with zero errors/warnings.
-  Studio loaded and played to eight seconds. Draft render produced 240 H.264
-  frames at 1920x1080 and 30fps. Extracted frames were visually inspected across
-  the eight-second sequence. No black interval of 0.1 seconds or longer was detected.
+## Escopo e limites
 
-## Scope and limits
-
-This is a working toolkit, not a promise of fully automatic editorial judgment.
-The library's 406 cards retain draft status; this release did not individually
-render and visually approve all of them. Test each selected card with your copy.
-The starter is motion graphics only, with no speech. The media smoke exercise
-checks timing and stream integrity with a tone, not subjective speech-cut quality.
-Paid Scribe transcription was not called during release QA. The templates require
-adaptation; the glass popout needs the student's footage. HyperFrames can download
-font substitutions on the first render. Cross-platform checks run in GitHub CI;
-local media and rendering QA were performed on Windows.
-
-Repeat: `npm ci`, `npm run check`, `npm test`, `npm run test:media`, then create a
-new starter project and lint, preview, render, and inspect its output.
+Este é um kit de trabalho, não uma promessa de julgamento editorial automático.
+Os 406 cards continuam como rascunho e não foram aprovados um por um. Teste cada
+card escolhido com o seu texto em português, conferindo quebra de linha e acentos
+em maiúsculas. O projeto inicial é só motion graphics, sem fala. O teste de mídia
+confere tempo e integridade dos streams com um tom, não a qualidade subjetiva dos
+cortes de fala. Os templates precisam de adaptação; o popout de vidro precisa da
+sua gravação. O HyperFrames pode baixar fontes substitutas na primeira renderização.
+A verificação cruzada de plataformas roda no GitHub Actions (Windows, macOS e Linux).

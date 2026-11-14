@@ -1,30 +1,35 @@
-# Resource provenance
+# Origem dos recursos e avisos de terceiros
 
-This kit assembles original workspace workflows, design guidance, templates, and
-card implementations for students. New pipeline resources exclude private source recordings and private reference
-screenshots. The original kit's previously published example media and
-brand assets remain unchanged; their inclusion does not grant third-party rights.
+Este kit reúne fluxos de trabalho, guias de design, templates e cards para uso em
+aulas. As modificações e adaptações para o Brasil (transcrição com Deepgram,
+detecção de erros em português, localização de legendas e números e documentação
+em português) fazem parte desta versão.
 
 - HyperFrames: https://github.com/heygen-com/hyperframes (Apache-2.0).
-  The hyperframes, hyperframes-cli, hyperframes-registry, and gsap skill packages
-  were bundled with the original workspace from the HyperFrames skill ecosystem.
-  The upstream Apache license is included in licenses/HYPERFRAMES-LICENSE.
-- GSAP is installed from npm; its own license applies. See the license files in
-  node_modules/gsap and https://gsap.com/community/standard-license/.
-- Some library styles reference Google Fonts. Font licenses remain with their
-  publishers. Install and preserve applicable licenses when localizing fonts.
-- Vox, Kallaway, and Infinite are aesthetic reference names. These templates are
-  not official brand assets or endorsed by those creators or organizations.
+  As skills hyperframes, hyperframes-cli, hyperframes-registry e gsap vêm do
+  ecossistema de skills do HyperFrames, com adaptações de caminho e empacotamento.
+  A licença Apache original está em licenses/HYPERFRAMES-LICENSE.
+- GSAP é instalado pelo npm e tem licença própria. Veja node_modules/gsap e
+  https://gsap.com/community/standard-license/.
+- Alguns estilos da biblioteca usam Google Fonts. As licenças das fontes são dos
+  seus autores. Preserve as licenças ao deixar as fontes locais.
+- Deepgram, OpenAI, ElevenLabs, Kie.ai e os demais serviços citados são de seus
+  respectivos donos e exigem conta e termos próprios.
+- Vox, Kallaway e Infinite são nomes de referência estética. Esses templates não são
+  materiais oficiais nem endossados por esses criadores ou organizações.
 
-No blanket relicensing of third-party components is implied. See LICENSE for the
-MIT permission for the original kit material. Imported pipeline resources
-retain the grant in licenses/PIPELINE-USE-PERMISSION.txt. This includes the added
-pipeline skills, style library, templates, shared editing tools, and new short-form
-workflow. Third-party notices override these grants for their respective assets.
+Nenhuma relicença geral de componentes de terceiros está implícita. Veja LICENSE
+para a permissão MIT e licenses/PIPELINE-USE-PERMISSION.txt para a permissão de uso
+do material do pipeline. Os avisos de terceiros prevalecem sobre essas permissões
+para os respectivos materiais.
 
-Library names, handles, statistics, and source labels inside cards are illustrative
-placeholders. Replace them with your own verified copy before publishing a video.
+Nomes, perfis, estatísticas e fontes de dados dentro dos cards são exemplos
+ilustrativos. Troque pelo seu texto verificado antes de publicar um vídeo.
 
-The three videos in examples/showcase were also explicitly supplied by Nate for
-public inclusion as finished-output references. They retain their existing asset
-rights; inclusion does not grant rights to third-party brands or embedded media.
+## Material de exemplo de terceiros
+
+Os projetos em `video-projects/`, os arquivos em `assets/` (marca AI Automation
+Society: logo, guia de marca, fundo e tokens CSS) e os vídeos em
+`examples/showcase/` são exemplos de terceiros mantidos para estudo. Eles não são
+licenciados para reuso nos seus projetos e não concedem direitos sobre marcas,
+rostos ou mídias que aparecem neles. Use suas próprias gravações e sua marca.
