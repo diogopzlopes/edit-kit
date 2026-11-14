@@ -10,8 +10,8 @@ Coloque esta pasta num caminho **sem acentos, sem espaços e fora do OneDrive**:
 - Mac e Linux: dentro da sua pasta pessoal, `edit-kit`
 
 Evite "Área de Trabalho", "Meus Documentos" e pastas sincronizadas: elas
-atrapalham a instalação. Se você baixou um zip, extraia e renomeie a pasta para
-`edit-kit` (o zip às vezes vem como `edit-kit-main`).
+atrapalham a instalação. Extraia o ZIP do kit direto nesse lugar: ele já cria a
+pasta `edit-kit`.
 
 ## 2. Instale o Claude Code
 
@@ -93,3 +93,17 @@ Coloque sua gravação em `video-projects/meu-primeiro-video/assets/raw.mp4` e p
 
 Algo deu errado? Digite `/instalar` de novo, ou rode `npm run setup` para ver o
 diagnóstico com o comando certo para o seu sistema.
+
+## Atualizar o kit
+
+Quando sair uma versão nova do ZIP:
+
+1. Renomeie a pasta atual para `edit-kit-antigo`.
+2. Extraia o ZIP novo no mesmo lugar (ele cria uma pasta `edit-kit` nova).
+3. Copie da pasta antiga para a nova o arquivo `.env` e as pastas dos seus
+   projetos dentro de `video-projects/`.
+4. Abra a pasta nova no Claude Code e digite `/instalar`.
+
+Quando tudo estiver funcionando, apague a `edit-kit-antigo`. O `.env` fica oculto
+em alguns sistemas: no Mac, aperte Cmd + Shift + . no Finder para ver; no Windows,
+ative "Itens ocultos" na aba Exibir do Explorador de Arquivos.

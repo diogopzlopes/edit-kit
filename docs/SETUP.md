@@ -41,3 +41,16 @@ permissão insuficiente. Confira a chave sem imprimi-la. Nenhuma chave é necess
 para `npm test`, preview ou renderização do projeto inicial. Para fontes sem fala,
 forneça uma faixa de áudio separada antes de usar os renderizadores de corte: eles
 esperam um stream de vídeo e um de áudio.
+
+## Gerar o ZIP para os alunos
+
+Na raiz do repositório, com tudo commitado:
+
+```sh
+npm run pacote -- --sem-exemplos
+```
+
+O ZIP sai em `dist/` e abre numa pasta `edit-kit`. Ele é montado pelo Git, então
+nunca leva o seu `.env`, o `node_modules`, renders nem projetos novos. Sem
+`--sem-exemplos`, os projetos de exemplo e os vídeos de showcase também entram
+(cerca de 390 MB a mais). Mudanças não commitadas ficam de fora e o comando avisa.
