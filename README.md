@@ -37,7 +37,11 @@ O projeto inicial roda sem nenhuma API paga. Veja o
 
 ## Instalação
 
-Instale o **Node.js 22 ou mais novo**, Git, FFmpeg (com ffprobe) e Chrome ou
+**Jeito mais fácil:** siga o [COMECE-AQUI.md](COMECE-AQUI.md). Você instala o Claude
+Code, abre esta pasta e digita `/instalar`; a IA instala o resto e renderiza um
+vídeo de teste.
+
+**Manual:** instale o **Node.js 22 ou mais novo**, Git, FFmpeg (com ffprobe) e Chrome ou
 Chromium. Confira se `node`, `ffmpeg` e `ffprobe` funcionam no terminal. Depois
 rode no PowerShell, no Terminal do macOS ou no Linux:
 
